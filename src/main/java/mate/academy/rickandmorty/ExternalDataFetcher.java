@@ -35,7 +35,7 @@ public class ExternalDataFetcher {
         String pageUrl = HOME_URL;
 
         try {
-            while(pageUrl != "") {
+            while (!pageUrl.isEmpty()) {
                 HttpRequest httpRequest = HttpRequest.newBuilder()
                         .GET()
                         .uri(URI.create(pageUrl))
@@ -47,11 +47,19 @@ public class ExternalDataFetcher {
                 JsonNode node = objectMapper.readTree(response.body());
                 List<Character> characters = new ArrayList<>();
                 JsonNode results = node.get("results");
-                for (JsonNode result : results) {
-                    characters.add(parseCharacter(result));
+                if (results != null) {
+                    for (JsonNode result : results) {
+                        characters.add(parseCharacter(result));
+                    }
+                    characterRepo.saveAll(characters);
                 }
-                characterRepo.saveAll(characters);
-                pageUrl = node.get("info").get("next").asText();
+
+                JsonNode infoNode = node.get("info");
+                if (infoNode != null) {
+                    pageUrl = infoNode.get("next").asText();
+                } else {
+                    pageUrl = "";
+                }
             }
         } catch (IOException | InterruptedException e) {
             throw new EntityNotFoundException("Cannot get data from Pick and Morty API", e);
