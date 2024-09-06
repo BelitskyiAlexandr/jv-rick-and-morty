@@ -8,5 +8,4 @@ public interface CharacterService {
 
     List<CharacterDto> getCharactersByString(String namePart);
 
-
 }
