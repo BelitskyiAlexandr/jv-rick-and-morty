@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.rickandmorty.dto.CharacterDto;
 import mate.academy.rickandmorty.service.CharacterService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class CharacterController {
             description = "Use this method to find characters, whose name contains entered string"
     )
     @GetMapping("search/{name}")
-    public List<CharacterDto> getCharactersByPartOfString(@PathVariable String partOfName) {
+    public List<CharacterDto> getCharactersByPartOfString(@RequestParam String partOfName) {
         return characterService.getCharactersByString(partOfName);
     }
 }
