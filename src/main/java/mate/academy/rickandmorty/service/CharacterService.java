@@ -1,11 +1,12 @@
 package mate.academy.rickandmorty.service;
 
-import mate.academy.rickandmorty.dto.CharacterDto;
 import java.util.List;
+import mate.academy.rickandmorty.dto.internal.CharacterResponseDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface CharacterService {
-    CharacterDto getRandomCharacter();
+    CharacterResponseDto getRandomCharacter();
 
-    List<CharacterDto> getCharactersByString(String namePart);
-
+    List<CharacterResponseDto> search(String name);
 }
